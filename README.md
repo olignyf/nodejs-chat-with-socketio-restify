@@ -1,5 +1,16 @@
 # Restify + Socket.IO example
 
+## How to run
+
+`npm install`
+`npm start`
+
+## How to debug in Visual Studio Code
+
+- Open directory with Visual Studio Code
+- Click Run > Start Debugging
+
+as simple as that!
 
 # Credits 
 

@@ -1,14 +1,27 @@
-const express = require('express');
-const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const restify = require('restify');
+const fs = require('fs');
+const socketio = require('socket.io');
 const path = require('path');
 
-//Serve public directory
-app.use(express.static(path.join(__dirname, 'public')));
+const http_server = restify.createServer({name:'test'});
+const io = socketio.listen(http_server.server, {path: '/socket.io'});
 
-app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, +'public/index.html'));
+//Serve public directory
+http_server.get('/*', restify.plugins.serveStatic({
+  directory: path.join(__dirname, 'public') 
+}));
+
+http_server.get('/', (req, res, next) => { 
+	fs.readFile(path.join(__dirname, 'public/index.html'), function (err, data) {
+    if (err) {
+        next(err);
+        return;
+    }
+    res.setHeader('Content-Type', 'text/html');
+    res.writeHead(200);
+    res.end(data);
+    next();
+  });
 });
 
 io.on('connection', socket => {
@@ -25,6 +38,6 @@ io.on('connection', socket => {
 	});
 });
 
-http.listen(3000, () => {
+http_server.listen(3000, () => {
 	console.log('listening on port 3000');
 });

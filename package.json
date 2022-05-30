@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "James Q Quick",
+  "author": "Francois Oligny-Lemieux",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3",
+    "restify": "^8.3.2",
     "socket.io": "^2.1.0"
   }
 }
